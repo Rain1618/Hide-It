@@ -1,10 +1,18 @@
 {
   "manifest_version": 3,
-  "name": "Hello Extensions",
-  "description": "Base Level Extension",
+  "name": "Hide-It Extension",
+  "description": "Extension to block triggering content on Reddit",
   "version": "1.0",
   "action": {
     "default_popup": "hello.html",
     "default_icon": "popup.png"
-  }
+  },
+  "content_scripts": [
+    {
+      "js": ["scripts/content.js"],
+      "matches": [
+        "https://www.Reddit.com/*"
+      ]
+    }
+  ]
 }
