@@ -1,32 +1,24 @@
-console.log("testing")
+function get_posts() {
 
-const article = document.querySelectorAll("article");
-const posts = document.querySelectorAll("div[data-testid='post-container']");
-const test = document.querySelectorAll("div[data-adclicklocation='background']");
+    const posts = document.querySelectorAll("div[data-click-id='background']");
 
-/*
-if (article) {
-    const text = article.textContent;
-    const wordMatchRegExp = /[^\s]+/g; // Regular expression
-    const words = text.matchAll(wordMatchRegExp);
-    // matchAll returns an iterator, convert to array to get word count
-    const wordCount = [...words].length;
-    const readingTime = Math.round(wordCount / 200);
-    const badge = document.createElement("p");
-    // Use the same styling as the publish information in an article's header
-    badge.classList.add("color-secondary-text", "type--caption");
-    badge.textContent = `⏱️ ${readingTime} min read xxx`;
+    for (var i = 0, len = posts.length; i < len; i++) {
 
-    // Support for API reference docs
-  const heading = article.querySelector("h1");
-  // Support for article docs with date
-  const date = article.querySelector("time")?.parentNode;
+        // get title
+        var post = posts[i].getElementsByTagName('h3')[0].innerHTML;
+        // get text if the post has it
+        paragraphs = posts[i].getElementsByTagName('p');
+        for (var p = 0, length = paragraphs.length; p<length; p++) {
 
-  (date ?? heading).insertAdjacentElement("afterend", badge);
-}
-*/
-
-for (var t = 0, len = test.length; t < len; t++) {
-    //work with checkboxes[i]
-    console.log(test[t])
+            // don't include text about why user is seeing the post
+            dont_include = ["Popular near you", "Suggested", "Promoted", 
+                            "Because you visited this community before",
+                            "Popular on Reddit right now", "Videos that redditors liked",
+                            "Some redditors find this funny"];
+            if (!dont_include.includes(paragraphs[p].innerHTML)) {
+                post = post.concat(" ", paragraphs[p].innerHTML);
+            }
+        }
+        console.log(post)
+    }
 }
