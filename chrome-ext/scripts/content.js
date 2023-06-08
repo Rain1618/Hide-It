@@ -1,6 +1,17 @@
+// BUGS:
+// need to make this run every time the user goes to a new reddit page
+// if there are hyperlinks in the text of the post it includes <a href ...> in the text
+// if there's bold includes <strong> etc
+
+data = get_posts();
+//clean_data(data);
+
+// get posts from browser and send them to Flask API
 function get_posts() {
 
+    // create the data to send in the request body
     const posts = document.querySelectorAll("div[data-click-id='background']");
+    const data = []
 
     for (var i = 0, len = posts.length; i < len; i++) {
 
@@ -19,6 +30,25 @@ function get_posts() {
                 post = post.concat(" ", paragraphs[p].innerHTML);
             }
         }
-        console.log(post)
+        data.push(post);
     }
+    //console.log(JSON.stringify(data, null, 2));
+    
+    // Send a POST request to the Python server
+    fetch('http://localhost:5000/api/submit', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        mode: 'cors',
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(result => {
+        // Process the response from the Python server
+        console.log(result);
+        })
+        .catch(error => {
+        console.error('Error:', error);
+        });
 }
