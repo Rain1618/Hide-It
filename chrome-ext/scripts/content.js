@@ -32,8 +32,8 @@ function get_posts() {
         }
         data.push(post);
     }
+    console.log(JSON.stringify(data, null, 2));
     return data
-    //console.log(JSON.stringify(data, null, 2));
 }
 
 function feed_data(data) {
