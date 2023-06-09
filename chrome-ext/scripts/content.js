@@ -4,7 +4,7 @@
 // if there's bold includes <strong> etc
 
 data = get_posts();
-//clean_data(data);
+feed_data(data);
 
 // get posts from browser and send them to Flask API
 function get_posts() {
@@ -32,8 +32,12 @@ function get_posts() {
         }
         data.push(post);
     }
+    return data
     //console.log(JSON.stringify(data, null, 2));
-    
+}
+
+function feed_data(data) {
+
     // Send a POST request to the Python server
     fetch('http://localhost:5000/api/submit', {
         method: 'POST',
@@ -52,3 +56,5 @@ function get_posts() {
         console.error('Error:', error);
         });
 }
+    
+

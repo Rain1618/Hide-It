@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
-from model import clean
+from model import clean, run_model
 
 app = Flask(__name__)
 CORS(app)
@@ -19,6 +19,7 @@ def submit_data():
     # Process POST request data
     submitted_data = request.json
     cleaned_data = clean(submitted_data)
+    run_model(cleaned_data)
 
     # Perform some processing with the submitted data
     #result = do_processing(submitted_data)

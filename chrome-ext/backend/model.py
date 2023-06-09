@@ -1,6 +1,7 @@
-import nltk
 import pandas as pd
 import numpy as np
+import spacy
+import pickle
 
 # input data is type list of strings
 def clean(data):
@@ -13,11 +14,12 @@ def clean(data):
     df['post'] = df['post'].str.lower()
     df['post'] = df['post'].str.replace('https:\S+|www.\S+', '', case=False)
 
-    print(df)
-
     # word level tokenize + remove stopwords
-    # df['token_text'] = df.apply(lambda row: nltk.word_tokenize(row['text']), axis=1)
-    # df = df.drop('text', axis = 1)
+    nlp = spacy.load('en_core_web_sm')
+    df['token_text'] = df.apply(lambda row: nlp(row['post']), axis=1)
 
-    # clean df
     return data
+
+def run_model(data):
+    loaded_model = pickle.load(open('backend/LinearSVC_model.sav', 'rb'))
+
