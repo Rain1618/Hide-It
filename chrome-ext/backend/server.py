@@ -6,23 +6,21 @@ from model import clean, run_model
 app = Flask(__name__)
 CORS(app)
 
-# Example route for GET request
+# GET request route
 @app.route('/api/data', methods=['GET'])
 def get_data():
     # Process GET request and return response
     data = {'message': 'Hello from the backend!'}
     return jsonify(data)
 
-# Example route for POST request
+# POST request route
 @app.route('/api/submit', methods=['POST'])
 def submit_data():
+
     # Process POST request data
     submitted_data = request.json
     cleaned_data = clean(submitted_data)
-    run_model(cleaned_data)
-
-    # Perform some processing with the submitted data
-    #result = do_processing(submitted_data)
+    probability_data = run_model(cleaned_data)
 
     # Return the processed result
     return jsonify(submitted_data)
