@@ -1,24 +1,33 @@
-// BUGS:
-// need to make this run every time the user goes to a new reddit page
-// if there are hyperlinks in the text of the post it includes <a href ...> in the text
-// if there's bold includes <strong> etc
+ 
+   window.addEventListener('load', function() {
+    // Executed on page load
+    data = get_posts();
+    feed_data(data);
+    
+    // Executed on scroll load
+    window.addEventListener('scroll', function() {
+       
+        // Calculate scroll position
+        var scrollPosition = window.innerHeight + window.pageYOffset;
+        var documentHeight = document.documentElement.offsetHeight;
 
-data = get_posts();
-labeled_posts = get_labels(data);
-
-// get posts from browser and send them to Flask API
-function get_posts() {
-
-    // create the data to send in the request body
-    const posts = document.querySelectorAll("div[data-click-id='background']");
-    const data = []
-
-    for (var i = 0, len = posts.length; i < len; i++) {
-
+        // Check if the user has reached the bottom of the page
+        if (scrollPosition >= documentHeight) {
+        data = get_posts();
+        feed_data(data);
+        }
+    });
+});
+  
+  function get_posts() {
+    loaded_posts =  document.getElementsByClassName('rpBJOHq2PR60pnwJlUyP0')[0].children;
+    for (var i = 1, len = loaded_posts.length; i < len; i++) {
+       
         // get title
-        var post = posts[i].getElementsByTagName('h3')[0].innerHTML;
+        var post = loaded_posts[i].getElementsByTagName('h3')[0].innerHTML;
         // get text if the post has it
-        paragraphs = posts[i].getElementsByTagName('p');
+        paragraphs = loaded_posts[i].getElementsByTagName('p');
+        
         for (var p = 0, length = paragraphs.length; p<length; p++) {
 
             // don't include text about why user is seeing the post
@@ -28,16 +37,17 @@ function get_posts() {
                             "Some redditors find this funny", 
                             "Because you've shown interest in a similar community"];
             if (!dont_include.includes(paragraphs[p].innerHTML)) {
-                post = post.concat(" ", paragraphs[p].innerHTML);
+                var clean_post = removeHtmlTags(paragraphs[p].innerHTML)
+                post = post.concat(" ", clean_post);
             }
         }
         data.push(post);
     }
     console.log(JSON.stringify(data, null, 2));
     return data
-}
-
-function get_labels(data) {
+  }
+  
+  function feed_data(data) {
 
     // Send a POST request to the Python server
     result = fetch('http://localhost:5000/api/submit', {
@@ -72,4 +82,12 @@ function hide_posts(result) {
     }
 }
     
+
+function removeHtmlTags(text) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, "text/html");
+    const cleanedText = doc.body.textContent;
+    return cleanedText;
+    }
+
 
