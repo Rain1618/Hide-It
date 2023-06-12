@@ -1,6 +1,70 @@
-<html>
+<!-- <html>
   <body>
     <h1>Hide-It!</h1>
 <!-- comment by Ken: should we just remove the popup (not have one?) I looked at some other extensions I already have and am not sure if we'd need one -->
   </body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Preferences</title>
+    <style>
+      label {
+        display: block;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Extension Preferences</h1>
+
+    <form id="preferencesForm">
+      <label>
+        <input type="checkbox" name="preference" value="option1" />
+        Abuse
+      </label>
+      <label>
+        <input type="checkbox" name="preference" value="option2" />
+        Addiction
+      </label>
+      <label>
+        <input type="checkbox" name="preference" value="option3" />
+        Eating disorder
+      </label>
+      <label>
+        <input type="checkbox" name="preference" value="option4" />
+        Sexual violence
+      </label>
+      <label>
+        <input type="checkbox" name="preference" value="option5" />
+        Suicide
+      </label>
+
+      <button type="submit">Save Preferences</button>
+    </form>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var preferencesForm = document.getElementById("preferencesForm");
+
+        preferencesForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          var preferences = [];
+          var checkboxes = preferencesForm.elements["preference"];
+
+          for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+              preferences.push(checkboxes[i].value);
+            }
+          }
+
+          // Save the preferences and stuff
+          console.log("Selected preferences:", preferences);
+        });
+      });
+    </script>
+  </body>
 </html>
+
