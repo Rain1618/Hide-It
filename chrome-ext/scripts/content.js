@@ -103,6 +103,7 @@ function removeHtmlTags(text) {
 // save user data (triggers & thresholds)
 
 document.getElementById("preferencesForm").addEventListener("submit", function(event) {
+    console.log("hello")
     event.preventDefault(); // Prevent the form from submitting normally
     
     // access form field values
