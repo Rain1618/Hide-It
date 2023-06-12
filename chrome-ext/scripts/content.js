@@ -1,5 +1,4 @@
- 
-   window.addEventListener('load', function() {
+ window.addEventListener('load', function() {
     // Executed on page load
     data = get_posts();
     feed_data(data);
@@ -19,9 +18,11 @@
     });
 });
   
-  function get_posts() {
-    loaded_posts =  document.getElementsByClassName('rpBJOHq2PR60pnwJlUyP0')[0].children;
-    for (var i = 1, len = loaded_posts.length; i < len; i++) {
+function get_posts() {
+    data = []
+    loaded_posts = document.querySelectorAll("div[data-click-id='background']");
+    //loaded_posts =  document.getElementsByClassName('rpBJOHq2PR60pnwJlUyP0')[0].children;
+    for (var i = 0, len = loaded_posts.length; i < len; i++) {
        
         // get title
         var post = loaded_posts[i].getElementsByTagName('h3')[0].innerHTML;
@@ -47,7 +48,7 @@
     return data
   }
   
-  function feed_data(data) {
+function feed_data(data) {
 
     // Send a POST request to the Python server
     result = fetch('http://localhost:5000/api/submit', {
@@ -88,6 +89,6 @@ function removeHtmlTags(text) {
     const doc = parser.parseFromString(text, "text/html");
     const cleanedText = doc.body.textContent;
     return cleanedText;
-    }
+}
 
 

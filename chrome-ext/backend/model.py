@@ -26,22 +26,22 @@ def run_model(data):
     with open('backend/model_constants/5000tfidf_vectorizer.pkl', 'rb') as f:
         vectorizer = pickle.load(f)
 
-    # check sizes of arrays
-
     data['as_string'] = data['token_text'].astype(str)
     vector_text = vectorizer.transform(data['as_string']) 
 
     # load model and get probabilities
-    loaded_model = pickle.load(open('backend/model_constants/LinearSVC_proba.sav', 'rb'))
+    loaded_model = pickle.load(open('backend/model_constants/SVCv2.sav', 'rb'))
     probabilities = loaded_model.predict_proba(vector_text)
-    threshold = 30
+    threshold = 0.3
     labels = []
     print(probabilities)
+
+    # keep posts that are labelled as triggering
     for prob in probabilities:
         labels.append(get_label(threshold, prob))
 
     data['label'] = labels
-    trigger_posts = data['safe'.isin(data['label'])]
+    trigger_posts = data.loc[~(data['label'] == 'safe')]
     print(trigger_posts)
 
     # return post-label dict in json form
@@ -51,17 +51,16 @@ def run_model(data):
 
 def get_label(threshold, probabilities):
   
-  classes_names = ['safe', 'addiction', 'abuse', 'sexual violence', 'eating disorder',
+  classes_names = ['abuse', 'addiction', 'eating disorder', 'safe', 'sexual violence',
                   'suicide']
-  result = []
-  safe = True
+  result = 'safe'
+  highest_prob = 0
   for percentage, label in zip(probabilities, classes_names):
-      if percentage > threshold:
-          result.append(label)
-          safe = False
-
-  if safe:
-    return ['safe']
+      if percentage > threshold and percentage > highest_prob:
+          result = label
+          highest_prob = percentage
+          print(highest_prob)
+          print(label)
 
   return result
 
