@@ -17,11 +17,11 @@
         }
     });
 });
-  
+
+// scrape reddit posts from user feed
 function get_posts() {
     data = []
     loaded_posts = document.querySelectorAll("div[data-click-id='background']");
-    //loaded_posts =  document.getElementsByClassName('rpBJOHq2PR60pnwJlUyP0')[0].children;
     for (var i = 0, len = loaded_posts.length; i < len; i++) {
        
         // get title
@@ -47,7 +47,8 @@ function get_posts() {
     console.log(JSON.stringify(data, null, 2));
     return data
   }
-  
+
+// send user posts to model in server api, get back label for each post
 function feed_data(data) {
 
     // Send a POST request to the Python server
@@ -76,19 +77,29 @@ function feed_data(data) {
     return result
 }
 
+// hide posts labelled as triggering
 function hide_posts(result) {
     for (const key in result) {
 
         labelled_posts[`${key}`] = `${result[key]}`
     }
 }
-    
 
+// clean posts
 function removeHtmlTags(text) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(text, "text/html");
     const cleanedText = doc.body.textContent;
     return cleanedText;
 }
+
+// save user data (triggers & thresholds)
+chrome.storage.sync.set({ key: value }).then(() => {
+    console.log("Value is set");
+  });
+  
+  chrome.storage.sync.get(["key"]).then((result) => {
+    console.log("Value currently is " + result.key);
+  });
 
 
