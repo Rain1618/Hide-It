@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import spacy
 import pickle
+import json
 
 # input data is type list of strings
 def clean(data):
@@ -22,21 +23,47 @@ def clean(data):
 def run_model(data):
 
     # vectorize spacy token data for input into model
-    with open('backend/model_constants/tfidf_vectorizer.pkl', 'rb') as f:
+    with open('backend/model_constants/5000tfidf_vectorizer.pkl', 'rb') as f:
         vectorizer = pickle.load(f)
 
     # check sizes of arrays
 
     data['as_string'] = data['token_text'].astype(str)
-    data['vector_text'] = vectorizer.transform(data['as_string']) 
+    vector_text = vectorizer.transform(data['as_string']) 
 
-    '''
     # load model and get probabilities
-    loaded_model = pickle.load(open('backend/model_constants/LinearSVC_model.sav', 'rb'))
-    print(loaded_model.predict(data['vector_text']))
-    '''
+    loaded_model = pickle.load(open('backend/model_constants/LinearSVC_proba.sav', 'rb'))
+    probabilities = loaded_model.predict_proba(vector_text)
+    threshold = 30
+    labels = []
+    print(probabilities)
+    for prob in probabilities:
+        labels.append(get_label(threshold, prob))
 
-    #return data_with_predictions
-    return 1
+    data['label'] = labels
+    trigger_posts = data['safe'.isin(data['label'])]
+    print(trigger_posts)
+
+    # return post-label dict in json form
+
+    labelled_posts = dict(zip(trigger_posts['post'], trigger_posts['label']))
+    return labelled_posts
+
+def get_label(threshold, probabilities):
+  
+  classes_names = ['safe', 'addiction', 'abuse', 'sexual violence', 'eating disorder',
+                  'suicide']
+  result = []
+  safe = True
+  for percentage, label in zip(probabilities, classes_names):
+      if percentage > threshold:
+          result.append(label)
+          safe = False
+
+  if safe:
+    return ['safe']
+
+  return result
+
     
 

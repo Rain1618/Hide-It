@@ -17,13 +17,13 @@ def get_data():
 @app.route('/api/submit', methods=['POST'])
 def submit_data():
 
-    # Process POST request data
+    # Process POST request data -> get trigger probabilities based off post title & text
     submitted_data = request.json
     cleaned_data = clean(submitted_data)
     probability_data = run_model(cleaned_data)
 
     # Return the processed result
-    return jsonify(submitted_data)
+    return probability_data
 
 if __name__ == '__main__':
     app.run()

@@ -4,7 +4,7 @@
 // if there's bold includes <strong> etc
 
 data = get_posts();
-feed_data(data);
+labeled_posts = get_labels(data);
 
 // get posts from browser and send them to Flask API
 function get_posts() {
@@ -25,7 +25,8 @@ function get_posts() {
             dont_include = ["Popular near you", "Suggested", "Promoted", 
                             "Because you visited this community before",
                             "Popular on Reddit right now", "Videos that redditors liked",
-                            "Some redditors find this funny"];
+                            "Some redditors find this funny", 
+                            "Because you've shown interest in a similar community"];
             if (!dont_include.includes(paragraphs[p].innerHTML)) {
                 post = post.concat(" ", paragraphs[p].innerHTML);
             }
@@ -36,10 +37,10 @@ function get_posts() {
     return data
 }
 
-function feed_data(data) {
+function get_labels(data) {
 
     // Send a POST request to the Python server
-    fetch('http://localhost:5000/api/submit', {
+    result = fetch('http://localhost:5000/api/submit', {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json'
@@ -50,11 +51,25 @@ function feed_data(data) {
         .then(response => response.json())
         .then(result => {
         // Process the response from the Python server
-        console.log(result);
+        // put response into dict
+        labelled_posts = [];
+        for (const key in result) {
+            labelled_posts[`${key}`] = `${result[key]}`
+        }
+        // hide posts on user end
+        hide_posts(labelled_posts)
         })
         .catch(error => {
         console.error('Error:', error);
         });
+    return result
+}
+
+function hide_posts(result) {
+    for (const key in result) {
+
+        labelled_posts[`${key}`] = `${result[key]}`
+    }
 }
     
 
