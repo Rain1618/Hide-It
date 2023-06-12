@@ -79,6 +79,13 @@ function feed_data(data) {
 
 // hide posts labelled as triggering
 function hide_posts(result) {
+
+    // base hiding off of user preferences
+    /*
+    chrome.storage.sync.get(["key"]).then((result) => {
+        console.log("Value currently is " + result.key);
+      });
+    */
     for (const key in result) {
 
         labelled_posts[`${key}`] = `${result[key]}`
@@ -94,12 +101,25 @@ function removeHtmlTags(text) {
 }
 
 // save user data (triggers & thresholds)
-chrome.storage.sync.set({ key: value }).then(() => {
-    console.log("Value is set");
+
+document.getElementById("preferencesForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent the form from submitting normally
+    
+    // access form field values
+    var triggers = document.getElementById("triggers").value;
+    var threshold = document.getElementById("threshold").value;
+    
+    // save user's inputs
+    chrome.storage.sync.set({ 'triggers': triggers }).then(() => {
+        console.log("Triggers are set");
+      });
+    chrome.storage.sync.set({ 'threshold': threshold }).then(() => {
+        console.log("Threshold is set");
+    });
+      
+    // Clear the form fields (optional)
+    document.getElementById("myForm").reset();
   });
-  
-  chrome.storage.sync.get(["key"]).then((result) => {
-    console.log("Value currently is " + result.key);
-  });
+
 
 
