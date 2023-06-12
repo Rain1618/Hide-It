@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Preferences</title>
+    <title> Extension Preferences</title>
     <style>
       label {
         display: block;
@@ -17,28 +17,18 @@
     </style>
   </head>
   <body>
-    <h1>Extension Preferences</h1>
+    <h1 style="background-color:AliceBlue">Your Preferences</h1>
 
     <form id="preferencesForm">
       <label>
-        <input type="checkbox" name="preference" value="option1" />
-        Abuse
-      </label>
-      <label>
-        <input type="checkbox" name="preference" value="option2" />
-        Addiction
-      </label>
-      <label>
-        <input type="checkbox" name="preference" value="option3" />
-        Eating disorder
-      </label>
-      <label>
-        <input type="checkbox" name="preference" value="option4" />
-        Sexual violence
-      </label>
-      <label>
-        <input type="checkbox" name="preference" value="option5" />
-        Suicide
+        Select your preferences:
+        <select name="preferences" multiple>
+          <option value="option1">Abuse</option>
+          <option value="option2">Addiction</option>
+          <option value="option3">Eating disorder</option>
+          <option value="option4">Sexual violence</option>
+          <option value="option5">Suicide</option>
+        </select>
       </label>
 
       <button type="submit">Save Preferences</button>
@@ -60,11 +50,10 @@
             }
           }
 
-          // Save the preferences and stuff
+          // Do something with the preferences
           console.log("Selected preferences:", preferences);
         });
       });
     </script>
   </body>
 </html>
-
