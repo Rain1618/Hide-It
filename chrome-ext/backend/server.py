@@ -17,12 +17,20 @@ def get_data():
 @app.route('/api/submit', methods=['POST'])
 def submit_data():
 
-    # Process POST request data -> get trigger probabilities based off post title & text
     submitted_data = request.json
-    cleaned_data = clean(submitted_data)
-    probability_data = run_model(cleaned_data)
+    print("test :", submitted_data)
 
-    # Return the processed result
+    # clean posts
+    cleaned_data = clean(submitted_data['data'])
+
+    # get user prefs
+    triggers = submitted_data['triggers']
+    threshold = submitted_data['threshold']
+
+    # get labels based off of post & user prefs
+    probability_data = run_model(cleaned_data, triggers, threshold)
+
+    # return the processed result
     return probability_data
 
 if __name__ == '__main__':

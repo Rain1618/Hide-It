@@ -1,6 +1,22 @@
- window.addEventListener('load', function() {
+function set_user_prefs() {
+
+    var triggers = 'triggers', test_trigger = ['addiction', 'ed'];
+
+    chrome.storage.sync.set({ triggers: test_trigger }).then(() => {
+            console.log("Triggers are set", triggers, test_trigger);
+    });
+
+    var threshold = 'threshold', test_threshold = 0.5;
+
+    chrome.storage.sync.set({ threshold: test_threshold }).then(() => {
+            console.log("Threshold is set", threshold, test_threshold);
+    });
+}
+set_user_prefs()
+
+window.addEventListener('load', function() {
     // Executed on page load
-    data = get_posts();
+    data = get_posts()
     feed_data(data);
     
     // Executed on scroll load
@@ -51,30 +67,39 @@ function get_posts() {
 // send user posts to model in server api, get back label for each post
 function feed_data(data) {
 
-    // Send a POST request to the Python server
-    result = fetch('http://localhost:5000/api/submit', {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json'
-        },
-        mode: 'cors',
-        body: JSON.stringify(data)
-    })
-        .then(response => response.json())
-        .then(result => {
-        // Process the response from the Python server
-        // put response into dict
-        labelled_posts = [];
-        for (const key in result) {
-            labelled_posts[`${key}`] = `${result[key]}`
-        }
-        // hide posts on user end
-        hide_posts(labelled_posts)
+    // access user preferences
+    chrome.storage.sync.get('triggers').then(trigger_response => {
+        triggers = trigger_response.triggers
+        chrome.storage.sync.get('threshold').then(threshold_response => {
+            threshold = threshold_response.threshold
+            user_prefs = {triggers, threshold, "data":data}
+
+                // Send a POST request to the Python server
+                result = fetch('http://localhost:5000/api/submit', {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json'
+                    },
+                    mode: 'cors',
+                    body: JSON.stringify(user_prefs)
+                })
+                    .then(response => response.json())
+                    .then(result => {
+                    // Process the response from the Python server
+                    // put response into dict
+                    labelled_posts = [];
+                    for (const key in result) {
+                        labelled_posts[`${key}`] = `${result[key]}`
+                    }
+                    // hide posts on user end
+                    hide_posts(labelled_posts)
+                    })
+                    .catch(error => {
+                    console.error('Error:', error);
+                    });
+                return result
         })
-        .catch(error => {
-        console.error('Error:', error);
-        });
-    return result
+    })
 }
 
 // hide posts labelled as triggering
@@ -100,27 +125,6 @@ function removeHtmlTags(text) {
     return cleanedText;
 }
 
-// save user data (triggers & thresholds)
-
-document.getElementById("preferencesForm").addEventListener("submit", function(event) {
-    console.log("hello")
-    event.preventDefault(); // Prevent the form from submitting normally
-    
-    // access form field values
-    var triggers = document.getElementById("triggers").value;
-    var threshold = document.getElementById("threshold").value;
-    
-    // save user's inputs
-    chrome.storage.sync.set({ 'triggers': triggers }).then(() => {
-        console.log("Triggers are set");
-      });
-    chrome.storage.sync.set({ 'threshold': threshold }).then(() => {
-        console.log("Threshold is set");
-    });
-      
-    // Clear the form fields (optional)
-    document.getElementById("myForm").reset();
-  });
 
 
 

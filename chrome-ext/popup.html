@@ -36,6 +36,7 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        console.log("hello")
         var preferencesForm = document.getElementById("preferencesForm");
 
         preferencesForm.addEventListener("submit", function (event) {
@@ -49,7 +50,6 @@
               preferences.push(checkboxes[i].value);
             }
           }
-
           // Do something with the preferences
           console.log("Selected preferences:", preferences);
         });

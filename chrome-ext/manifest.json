@@ -4,7 +4,7 @@
   "description": "Extension to block triggering content on Reddit",
   "version": "1.0",
   "action": {
-    "default_popup": "hello.html",
+    "default_popup": "popup.html",
     "default_icon": "popup.png"
   },
   "content_scripts": [
@@ -15,5 +15,8 @@
         "https://www.Reddit.com/*"
       ]
     }
+  ],
+  "permissions": [
+    "storage"
   ]
 }
