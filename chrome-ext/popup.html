@@ -8,27 +8,64 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand">
     <title> Extension Preferences</title>
     <style>
+      body {
+        background-color: #F0F8FF;
+      }
       label {
         display: block;
         margin-bottom: 10px;
+        font-size: 15px;
+      }
+
+      h1 {
+        font-family: "Quicksand", Verdana, arial, helvetica, sans-serif;
+      }
+
+      preferencesForm {
+        border-radius: 10px;
+        padding: 20px;
+      }
+
+      button {
+        margin-top: 5px;
+        border-radius: 5px;
+        border-width: 1px;
+        font-family: Verdana, arial, helvetica, sans-serif;
+        background-color: #D1E6F7;
       }
     </style>
   </head>
   <body>
-    <h1 style="background-color:AliceBlue">Your Preferences</h1>
+    <h1 style="background-color:AliceBlue ">HideIt</h1>
 
-    <form id="preferencesForm">
+    <form id="preferencesForm" action="content.js">
+      <p class="select-text">Select your preferences:</p>
       <label>
-        Select your preferences:
-        <select name="triggers" multiple>
-          <option value="abuse">Abuse</option>
-          <option value="addiction">Addiction</option>
-          <option value="ed">Eating disorder</option>
-          <option value="sv">Sexual violence</option>
-          <option value="suicide">Suicide</option>
-        </select>
+        <input type="checkbox" name="preferences" value="option1" />
+        Abuse
+      </label>
+
+      <label>
+        <input type="checkbox" name="preferences" value="option2" />
+        Addiction
+      </label>
+
+      <label>
+        <input type="checkbox" name="preferences" value="option3" />
+        Eating disorder
+      </label>
+
+      <label>
+        <input type="checkbox" name="preferences" value="option3" />
+        Sexual violence
+      </label>
+
+      <label>
+        <input type="checkbox" name="preferences" value="option3" />
+        Suicide
       </label>
 
       <button type="submit">Save Preferences</button>
