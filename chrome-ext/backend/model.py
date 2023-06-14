@@ -19,24 +19,48 @@ def clean(data):
     df['token_text'] = df.apply(lambda row: nlp(row['post']), axis=1)
     return df
 
-def run_model(data):
+def run_model(data, triggers, threshold):
 
     # vectorize spacy token data for input into model
-    with open('backend/model_constants/tfidf_vectorizer.pkl', 'rb') as f:
+    with open('backend/model_constants/5000tfidf_vectorizer.pkl', 'rb') as f:
         vectorizer = pickle.load(f)
 
-    # check sizes of arrays
-
     data['as_string'] = data['token_text'].astype(str)
-    data['vector_text'] = vectorizer.transform(data['as_string']) 
+    vector_text = vectorizer.transform(data['as_string']) 
 
-    '''
     # load model and get probabilities
-    loaded_model = pickle.load(open('backend/model_constants/LinearSVC_model.sav', 'rb'))
-    print(loaded_model.predict(data['vector_text']))
-    '''
+    loaded_model = pickle.load(open('backend/model_constants/SVCv2.sav', 'rb'))
+    probabilities = loaded_model.predict_proba(vector_text)
+    labels = []
 
-    #return data_with_predictions
-    return 1
+    # keep posts that are labelled as triggering & correspond to user's triggers
+
+    for prob in probabilities:
+        labels.append(get_label(threshold, prob))
+
+    data['label'] = labels
+    trigger_posts = data[data['label'].isin(triggers)]
+    print(trigger_posts)
+
+    # return post-label dict in json form
+
+    labelled_posts = dict(zip(trigger_posts['post'], trigger_posts['label']))
+    return labelled_posts
+
+def get_label(threshold, probabilities):
+  
+  classes_names = ['abuse', 'addiction', 'eating disorder', 'safe', 'sexual violence',
+                  'suicide']
+  result = 'safe'
+  highest_prob = 0
+  for percentage, label in zip(probabilities, classes_names):
+      if percentage > threshold and percentage > highest_prob:
+          result = label
+          highest_prob = percentage
+          print(highest_prob)
+          print(label)
+
+  return result
+
     
 
