@@ -10,9 +10,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const selectedLabels = Array.from(checkboxes).map(checkbox => checkbox.parentNode.textContent.trim());
         selectedLabelsElem.textContent = "Selected Labels: " + selectedLabels.join(", ");
         chrome.storage.sync.set({ triggers: selectedLabels }).then(() => {});
-
-        var threshold = 'threshold', test_threshold = 0.5;
-
-        chrome.storage.sync.set({ threshold: test_threshold }).then(() => {});
+        chrome.storage.sync.set({ threshold: 0.5 }).then(() => {});
     })
 });
