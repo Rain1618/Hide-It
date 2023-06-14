@@ -5,9 +5,14 @@ document.addEventListener("DOMContentLoaded", function() {
     form.addEventListener("submit", function(event) {
         event.preventDefault();
 
+        // update user preferences
         const checkboxes = document.querySelectorAll('input[name="preferences"]:checked');
         const selectedLabels = Array.from(checkboxes).map(checkbox => checkbox.parentNode.textContent.trim());
-        console.log(typeof(selectedLabels))
         selectedLabelsElem.textContent = "Selected Labels: " + selectedLabels.join(", ");
-    });
+        chrome.storage.sync.set({ triggers: selectedLabels }).then(() => {});
+
+        var threshold = 'threshold', test_threshold = 0.5;
+
+        chrome.storage.sync.set({ threshold: test_threshold }).then(() => {});
+    })
 });

@@ -1,19 +1,3 @@
-function set_user_prefs() {
-
-    var triggers = 'triggers', test_trigger = ['addiction', 'ed'];
-
-    chrome.storage.sync.set({ triggers: test_trigger }).then(() => {
-            console.log("Triggers are set", triggers, test_trigger);
-    });
-
-    var threshold = 'threshold', test_threshold = 0.5;
-
-    chrome.storage.sync.set({ threshold: test_threshold }).then(() => {
-            console.log("Threshold is set", threshold, test_threshold);
-    });
-}
-set_user_prefs()
-
 window.addEventListener('load', function() {
     // Executed on page load
     data = get_posts()
@@ -60,7 +44,6 @@ function get_posts() {
         }
         data.push(post);
     }
-    console.log(JSON.stringify(data, null, 2));
     return data
   }
 

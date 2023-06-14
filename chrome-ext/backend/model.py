@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import spacy
 import pickle
-import json
 
 # input data is type list of strings
 def clean(data):
@@ -44,7 +43,6 @@ def run_model(data, triggers, threshold):
     print(trigger_posts)
 
     # return post-label dict in json form
-
 
     labelled_posts = dict(zip(trigger_posts['post'], trigger_posts['label']))
     return labelled_posts

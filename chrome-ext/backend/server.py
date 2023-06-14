@@ -18,7 +18,8 @@ def get_data():
 def submit_data():
 
     submitted_data = request.json
-    print("test :", submitted_data)
+    print("triggers :", submitted_data['triggers'])
+    print("threshold :", submitted_data['threshold'])
 
     # clean posts
     cleaned_data = clean(submitted_data['data'])
