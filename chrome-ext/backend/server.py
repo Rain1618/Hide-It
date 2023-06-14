@@ -13,11 +13,12 @@ def get_data():
     data = {'message': 'Hello from the backend!'}
     return jsonify(data)
 
-# POST request route
+# POST request route -> takes posts from frontend + user preferences & returns triggering posts only
 @app.route('/api/submit', methods=['POST'])
 def submit_data():
 
     submitted_data = request.json
+    print(submitted_data)
     print("triggers :", submitted_data['triggers'])
     print("threshold :", submitted_data['threshold'])
 

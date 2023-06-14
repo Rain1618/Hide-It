@@ -9,13 +9,17 @@
   },
   "content_scripts": [
     {
-      "js": ["scripts/content.js"],
+      "js": ["scripts/content_temp.js"],
       "type": "module",
       "matches": [
         "https://www.Reddit.com/*"
       ]
     }
   ],
+  "background.service_worker": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
   "permissions": [
     "storage"
   ]
