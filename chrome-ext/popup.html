@@ -7,34 +7,51 @@
       body {
         background-color: #F0F8FF;
       }
-      label {
-        display: block;
-        margin-bottom: 5px;
-        font-size: 15px;
-        font-family: "Quicksand", Verdana, Arial, sans-serif;
-      }
-
+      
       h1 {
         font-family: "Quicksand", Verdana, arial, helvetica, sans-serif;
       }
-
-      #preferencesForm {
-        border-radius: 10px;
-        padding: 10px;
-        width: 170px;
-        height: 190px;
+      
+      .select-text {
+        font-family: "Quicksand", Verdana, Arial, sans-serif; 
+        margin-top: 0;
+        font-size: 15px;
       }
-
+      
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 15px;
+        font-family: "Quicksand", Verdana, Arial, sans-serif;
+      }
+      
+      preferencesForm {
+        border-radius: 10px;
+        padding: 20px;
+      }
+      
+      input[type="range"] {
+        width: 100%;
+        margin-top: 10px;
+      }
+      
+      datalist option {
+        font-family: "Quicksand", Verdana, Arial, sans-serif;
+      }
+      
       button {
         margin-top: 5px;
+        margin-bottom: 5px;
         border-radius: 5px;
         border-width: 1px;
         font-family: "Quicksand", Verdana, Arial, sans-serif;
         background-color: #D1E6F7;
       }
-
-      .select-text {
+      
+      #selectedLabels,
+      #selectedThreshold {
         font-family: "Quicksand", Verdana, Arial, sans-serif;
+        font-size: 13px;
       }
 
     </style>
@@ -69,10 +86,16 @@
         Suicide
       </label>
 
+      <label>
+        <span>Select your threshold:</span>
+        <input type="range" min="0" max="100" value="50" id="thresholdLevel">
+      </label>
+
       <button type="submit">Save Preferences</button>
     </form>
 
     <div id="selectedLabels"></div>
+    <div id="selectedThreshold"></div>
     <script src="scripts/background.js" defer></script>
 
   </body>
