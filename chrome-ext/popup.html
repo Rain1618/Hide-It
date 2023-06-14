@@ -7,47 +7,45 @@
       body {
         background-color: #F0F8FF;
       }
-      
+
       h1 {
+        margin: 0;
         font-family: "Quicksand", Verdana, arial, helvetica, sans-serif;
       }
-      
+
       .select-text {
-        font-family: "Quicksand", Verdana, Arial, sans-serif; 
         margin-top: 0;
+        font-family: "Quicksand", Verdana, Arial, sans-serif;
         font-size: 15px;
       }
-      
+
       label {
         display: block;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
         font-size: 15px;
         font-family: "Quicksand", Verdana, Arial, sans-serif;
       }
-      
-      preferencesForm {
+
+      #preferencesForm {
         border-radius: 10px;
-        padding: 20px;
+        padding: 10px;
+        width: 200px;
+        height: 230px;
       }
-      
+
       input[type="range"] {
         width: 100%;
         margin-top: 10px;
       }
-      
-      datalist option {
-        font-family: "Quicksand", Verdana, Arial, sans-serif;
-      }
-      
+
       button {
         margin-top: 5px;
-        margin-bottom: 5px;
         border-radius: 5px;
         border-width: 1px;
         font-family: "Quicksand", Verdana, Arial, sans-serif;
         background-color: #D1E6F7;
       }
-      
+
       #selectedLabels,
       #selectedThreshold {
         font-family: "Quicksand", Verdana, Arial, sans-serif;
@@ -62,27 +60,27 @@
     <form id="preferencesForm">
       <p class="select-text">Select your preferences:</p>
       <label>
-        <input type="checkbox" name="preferences" value="abuse" />
+        <input type="checkbox" name="preferences" value="Abuse" />
         Abuse
       </label>
 
       <label>
-        <input type="checkbox" name="preferences" value="addiction" />
+        <input type="checkbox" name="preferences" value="Addiction" />
         Addiction
       </label>
 
       <label>
-        <input type="checkbox" name="preferences" value="eating disorder" />
+        <input type="checkbox" name="preferences" value="Eating disorder" />
         Eating disorder
       </label>
 
       <label>
-        <input type="checkbox" name="preferences" value="sexual violence" />
+        <input type="checkbox" name="preferences" value="Sexual violence" />
         Sexual violence
       </label>
 
       <label>
-        <input type="checkbox" name="preferences" value="suicide" />
+        <input type="checkbox" name="preferences" value="Suicide" />
         Suicide
       </label>
 
