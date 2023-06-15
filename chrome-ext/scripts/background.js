@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const selectedThresholdElem = document.getElementById("selectedThreshold");
 
 
-  chrome.storage.local.get("preferences", function(result) {
+  chrome.storage.sync.get("preferences", function(result) {
     if (result.preferences) {
       // Preferences exist, display them
       selectedLabelsElem.textContent = "Selected Labels: " + result.preferences.labels;
@@ -23,11 +23,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const checkboxes = document.querySelectorAll('input[name="preferences"]:checked');
     const selectedLabels = Array.from(checkboxes).map(checkbox => checkbox.parentNode.textContent.trim()); //Triggers set by user
-
     const userThreshold = document.getElementById("thresholdLevel").value;
 
     // Save preferences to storage
-    chrome.storage.local.set({ preferences: { labels: selectedLabels, threshold: userThreshold } });
+    chrome.storage.sync.set({ triggers: selectedLabels }).then(() => {});
+    chrome.storage.sync.set({ threshold: userThreshold }).then(() => {});
 
     selectedLabelsElem.textContent = "Selected Labels: " + selectedLabels.join(", ");
     selectedThresholdElem.textContent = "Selected Threshold: " + userThreshold;

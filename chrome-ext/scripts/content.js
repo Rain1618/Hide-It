@@ -11,10 +11,9 @@ var button = {'like':{'right':'8%','icon':'fa-smile-o'},'dislike':{'right':'2%',
 window.addEventListener('load', function() {
     
     // Executed on page load
-    var data = get_posts(starting_post_index)
+    var data = get_posts()
     feed_data(data);
     
-  
     window.addEventListener('scroll', function() {
 
         var scrollPosition = window.innerHeight + window.pageYOffset;
@@ -29,7 +28,7 @@ window.addEventListener('load', function() {
 });
 
 // scrape reddit posts from user feed
-function get_posts(starting_index) {
+function get_posts() {
     var data = []
     loaded_posts = document.querySelectorAll("div[data-click-id='background']");
 
@@ -67,15 +66,15 @@ function get_posts(starting_index) {
 // send user posts to model in server api, get back label for each post
 function feed_data(data) {
     
-
     // access user preferences
     chrome.storage.sync.get('triggers').then(trigger_response => {
       triggers = trigger_response.triggers
       chrome.storage.sync.get('threshold').then(threshold_response => {
           threshold = threshold_response.threshold
-          user_prefs = {'triggers':triggers, 'threshold':0.5, "data":data}
+          user_prefs = {'triggers':triggers, 'threshold':threshold, "data":data}
 
-                console.log(data)
+                console.log(triggers)
+
                 // Send a POST request to the Python server
                 result = fetch('http://localhost:5000/api/submit', {
                     method: 'POST',
@@ -95,8 +94,8 @@ function feed_data(data) {
                         labelled_posts[`${key}`] = `${result[key]}`
                     }
                     // hide posts on user end
-                    //console.log(labelled_posts)
-                    //hidePost(labelled_posts,'')
+                    console.log(labelled_posts)
+                    hidePost(labelled_posts,'')
                     })
                     .catch(error => {
                     console.error('Error:', error);
@@ -130,7 +129,7 @@ function removeHtmlTags(text) {
 }
 
 
-  function hidePost(post,trigger) {
+  function hidePost(post) {
     
     // Add like button to post
     option_bar = post.querySelector('._1ixsU4oQRnNfZ91jhBU74y').querySelector('._3-miAEojrCvx_4FQ8x3P-s').querySelector('._21pmAV9gWG6F_UKVe7YIE0')
@@ -140,7 +139,7 @@ function removeHtmlTags(text) {
     parent_div = post.parentNode.parentNode;;
     var { x, y, width, height } = parent_div.getBoundingClientRect(); //position relative to viewport
     console.log('POSITION' + x, y , width, height)
-    y = y + document.documentElement.scrollTop //position relative to documnet 
+    y = y + document.documentElement.scrollTop //position relative to document 
     
     // Create and style cover
     var cover = document.createElement("div");

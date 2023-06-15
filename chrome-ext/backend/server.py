@@ -15,7 +15,7 @@ def get_data():
 
 # POST request route -> takes posts from frontend + user preferences & returns triggering posts only
 @app.route('/api/submit', methods=['POST'])
-def submit_data():      
+def submit_data():    
 
     submitted_data = request.json
     print(submitted_data)

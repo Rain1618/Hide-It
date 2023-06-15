@@ -33,6 +33,8 @@ def run_model(data, triggers, threshold):
     probabilities = loaded_model.predict_proba(vector_text)
     labels = []
 
+    print(probabilities)
+
     # keep posts that are labelled as triggering & correspond to user's triggers
     for prob in probabilities:
         labels.append(get_label(threshold, prob))
@@ -46,12 +48,13 @@ def run_model(data, triggers, threshold):
 
 def get_label(threshold, probabilities):
   
-  classes_names = ['abuse', 'addiction', 'eating disorder', 'safe', 'sexual violence',
-                  'suicide']
+  classes_names = ['Abuse', 'Addiction', 'Eating disorder', 'safe', 'Sexual violence',
+                  'Suicide']
   result = 'safe'
   highest_prob = 0
   for percentage, label in zip(probabilities, classes_names):
-      if percentage > threshold and percentage > highest_prob:
+      #if percentage > threshold and percentage > highest_prob:
+    if percentage > 0.1 and percentage > highest_prob and label != 'safe':
           result = label
           highest_prob = percentage
           print(highest_prob)
