@@ -1,10 +1,11 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-
+import sys
 from model import clean, run_model
 
 app = Flask(__name__)
 CORS(app)
+
 
 # GET request route
 @app.route('/api/data', methods=['GET'])
@@ -15,11 +16,8 @@ def get_data():
 
 # POST request route
 @app.route('/api/submit', methods=['POST'])
-def submit_data():
-
+def submit_data():      
     submitted_data = request.json
-    print("triggers :", submitted_data['triggers'])
-    print("threshold :", submitted_data['threshold'])
 
     # clean posts
     cleaned_data = clean(submitted_data['data'])
