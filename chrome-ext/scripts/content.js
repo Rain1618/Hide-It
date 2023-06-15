@@ -5,8 +5,6 @@ link.rel = 'stylesheet';
 link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css';
 document.head.appendChild(link);
 
-
-
 window.addEventListener('load', function() {
     // Collection of post (where post includes upvote bar)
     var loaded_posts_whole =  document.getElementsByClassName('rpBJOHq2PR60pnwJlUyP0')[0].children;

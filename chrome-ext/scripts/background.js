@@ -10,7 +10,5 @@ document.addEventListener("DOMContentLoaded", function() {
         const chosen_threshold = parseInt(document.getElementById('threshold').value);
         chrome.storage.sync.set({ threshold: chosen_threshold }).then(() => {});
 
-        // reload page
-        browser.runtime.reload()
     })
 });
