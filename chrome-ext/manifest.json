@@ -9,7 +9,7 @@
   },
   "content_scripts": [
     {
-      "js": ["scripts/content_temp.js"],
+      "js": ["scripts/content.js"],
       "type": "module",
       "matches": [
         "https://www.Reddit.com/*"

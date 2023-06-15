@@ -1,10 +1,10 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-
 from model import clean, run_model
 
 app = Flask(__name__)
 CORS(app)
+
 
 # GET request route
 @app.route('/api/data', methods=['GET'])
@@ -15,7 +15,7 @@ def get_data():
 
 # POST request route -> takes posts from frontend + user preferences & returns triggering posts only
 @app.route('/api/submit', methods=['POST'])
-def submit_data():
+def submit_data():      
 
     submitted_data = request.json
     print(submitted_data)

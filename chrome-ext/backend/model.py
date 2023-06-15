@@ -34,16 +34,13 @@ def run_model(data, triggers, threshold):
     labels = []
 
     # keep posts that are labelled as triggering & correspond to user's triggers
-
     for prob in probabilities:
         labels.append(get_label(threshold, prob))
-
     data['label'] = labels
     trigger_posts = data[data['label'].isin(triggers)]
     print(trigger_posts)
 
     # return post-label dict in json form
-
     labelled_posts = dict(zip(trigger_posts['post'], trigger_posts['label']))
     return labelled_posts
 
