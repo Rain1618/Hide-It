@@ -95,7 +95,7 @@ function feed_data(data) {
                     }
                     // hide posts on user end
                     console.log(labelled_posts)
-                    hidePost(labelled_posts,'')
+                    //hidePost(labelled_posts,'')
                     })
                     .catch(error => {
                     console.error('Error:', error);

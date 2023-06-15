@@ -43,7 +43,7 @@ def run_model(data, triggers, threshold):
     print(trigger_posts)
 
     # return post-label dict in json form
-    labelled_posts = dict(zip(trigger_posts['post'], trigger_posts['label']))
+    labelled_posts = dict(zip(trigger_posts.index, trigger_posts['label']))
     return labelled_posts
 
 def get_label(threshold, probabilities):
