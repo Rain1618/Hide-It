@@ -54,7 +54,7 @@ def get_label(threshold, probabilities):
   highest_prob = 0
   for percentage, label in zip(probabilities, classes_names):
       #if percentage > threshold and percentage > highest_prob:
-    if percentage > 0.1 and percentage > highest_prob and label != 'safe':
+    if percentage > 0.05 and percentage > highest_prob and label != 'safe':
           result = label
           highest_prob = percentage
           print(highest_prob)

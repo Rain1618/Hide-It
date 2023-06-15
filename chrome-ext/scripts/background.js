@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
   chrome.storage.sync.get("preferences", function(result) {
     if (result.preferences) {
       // Preferences exist, display them
-      selectedLabelsElem.textContent = "Selected Labels: " + result.preferences.labels;
+      selectedLabelsElem.textContent = "Selected Labels: " + result.preferences.triggers;
       selectedThresholdElem.textContent = "Selected Threshold: " + result.preferences.threshold;
     } else {
       // Preferences don't exist, show the form
