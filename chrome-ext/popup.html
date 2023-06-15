@@ -48,7 +48,7 @@
       }
 
       .slider-labels span:first-child {
-        margin-right: 20px;
+        margin-right: 20px; /
       }
 
       .slider-labels span:last-child {
@@ -75,38 +75,38 @@
     <h1 style="background-color:AliceBlue ">Hide-it</h1>
 
     <form id="preferencesForm">
-      <p class="select-text">Select your preferences:</p>
+      <p class="select-text">I want to hide...</p>
       <label>
-        <input type="checkbox" name="preferences" value="Abuse" />
+        <input type="checkbox" name="preferences" value="Abuse" id="abuse"/>
         Abuse
       </label>
 
       <label>
-        <input type="checkbox" name="preferences" value="Addiction" />
+        <input type="checkbox" name="preferences" value="Addiction" id="addiction" />
         Addiction
       </label>
 
       <label>
-        <input type="checkbox" name="preferences" value="Eating disorder" />
+        <input type="checkbox" name="preferences" value="Eating disorder" id="eating disorder"/>
         Eating disorder
       </label>
 
       <label>
-        <input type="checkbox" name="preferences" value="Sexual violence" />
+        <input type="checkbox" name="preferences" value="Sexual violence" id="sexual violence"/>
         Sexual violence
       </label>
 
       <label>
-        <input type="checkbox" name="preferences" value="Suicide" />
+        <input type="checkbox" name="preferences" value="Suicide" id = suicide/>
         Suicide
       </label>
 
       <label>
-        <span>Select your threshold:</span>
+        <span>Filter strength:</span>
         <input type="range" min="0" max="100" value="50" id="thresholdLevel">
         <div class="slider-labels">
-          <span>Low</span>
-          <span>High</span>
+          <span>Off</span>
+          <span>Strictest</span>
         </div
       </label>
 
