@@ -6,17 +6,32 @@ document.addEventListener("DOMContentLoaded", function() {
   const selectedLabelsElem = document.getElementById("selectedLabels");
   const selectedThresholdElem = document.getElementById("selectedThreshold");
 
+  //Get frontend to display saved user preferences
+  chrome.storage.sync.get('triggers', (result) => {
+  const triggers = result.triggers;
 
-  chrome.storage.sync.get("preferences", function(result) {
-    if (result.preferences) {
-      // Preferences exist, display them
-      selectedLabelsElem.textContent = "Selected Labels: " + result.preferences.triggers;
-      selectedThresholdElem.textContent = "Selected Threshold: " + result.preferences.threshold;
-    } else {
-      // Preferences don't exist, show the form
-      form.style.display = "block";
+  if (triggers) {
+    document.getElementById('selectedLabels').textContent = "";
+    for (const trigger of triggers) {
+        document.getElementById(trigger.toString()).checked = true;
+      }
     }
-  });
+  else {
+    document.getElementById('selectedLabels').textContent = "";
+  }
+});
+
+  chrome.storage.sync.get('threshold', (result) => {
+  const threshold = result.threshold;
+
+  if (threshold) {
+    document.getElementById('selectedThreshold').textContent = "";
+    document.getElementById('thresholdLevel').value = threshold
+  } else {
+    document.getElementById('selectedThreshold').textContent = "";
+  }
+    });
+
 
   form.addEventListener("submit", function(event) {
     event.preventDefault();
@@ -29,8 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
     chrome.storage.sync.set({ triggers: selectedLabels }).then(() => {});
     chrome.storage.sync.set({ threshold: userThreshold }).then(() => {});
 
-    selectedLabelsElem.textContent = "Selected Labels: " + selectedLabels.join(", ");
-    selectedThresholdElem.textContent = "Selected Threshold: " + userThreshold;
+    selectedLabelsElem.textContent = "Saved!";
 
     //Reload tab after clicking Save Preferences
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
