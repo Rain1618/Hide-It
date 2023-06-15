@@ -64,7 +64,8 @@ function get_posts() {
   }
 
 // send user posts to model in server api, get back label for each post
-function feed_data(data) {
+function feed_data(data,loaded_posts) {
+    var loaded_posts = document.querySelectorAll("div[data-click-id='background']");
     
     // access user preferences
     chrome.storage.sync.get('triggers').then(trigger_response => {
@@ -95,6 +96,12 @@ function feed_data(data) {
                     }
                     // hide posts on user end
                     console.log(labelled_posts)
+                    for (const [key, value] of Object.entries(labelled_posts)) {
+                      hidePost(loaded_posts[key]);
+
+                     
+                      //console.log(loaded_posts[key]);
+                    }
                     //hidePost(labelled_posts,'')
                     })
                     .catch(error => {
@@ -130,6 +137,7 @@ function removeHtmlTags(text) {
 
 
   function hidePost(post) {
+  
     
     // Add like button to post
     option_bar = post.querySelector('._1ixsU4oQRnNfZ91jhBU74y').querySelector('._3-miAEojrCvx_4FQ8x3P-s').querySelector('._21pmAV9gWG6F_UKVe7YIE0')
