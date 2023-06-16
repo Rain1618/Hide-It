@@ -34,9 +34,15 @@ function get_posts() {
     loaded_posts = document.querySelectorAll("div[data-click-id='background']");
 
     for (var i = 0, len = loaded_posts.length; i < len; i++) {
+      option_bar = ''
+      try {
+        
+        option_bar = loaded_posts[i].querySelector('._1ixsU4oQRnNfZ91jhBU74y').querySelector('._3-miAEojrCvx_4FQ8x3P-s').querySelector('._21pmAV9gWG6F_UKVe7YIE0')
+      } catch (error) {
+        // Code to handle the error
+        option_bar = loaded_posts[i].querySelector('._3-miAEojrCvx_4FQ8x3P-s').querySelector('._21pmAV9gWG6F_UKVe7YIE0')
+      }
 
-      // Add dislike button to post
-      option_bar = loaded_posts[i].querySelector('._1ixsU4oQRnNfZ91jhBU74y').querySelector('._3-miAEojrCvx_4FQ8x3P-s').querySelector('._21pmAV9gWG6F_UKVe7YIE0');
       option_bar.appendChild(createButton('dislike'));
 
       // get title
@@ -121,6 +127,7 @@ function removeHtmlTags(text) {
 }
 
   function hidePost(post) {
+    
     // Add like button to post
     option_bar = post.querySelector('._1ixsU4oQRnNfZ91jhBU74y').querySelector('._3-miAEojrCvx_4FQ8x3P-s').querySelector('._21pmAV9gWG6F_UKVe7YIE0')
     option_bar.appendChild(createButton('like'))
