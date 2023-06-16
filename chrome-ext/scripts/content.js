@@ -24,6 +24,7 @@ window.addEventListener('load', function() {
           data = get_posts();
           feed_data(data);
         }
+
     });
 });
 
@@ -74,7 +75,7 @@ function feed_data(data,loaded_posts) {
           threshold = threshold_response.threshold
           user_prefs = {'triggers':triggers, 'threshold':threshold, "data":data}
 
-                console.log(triggers)
+                //console.log(triggers)
 
                 // Send a POST request to the Python server
                 result = fetch('http://localhost:5000/api/submit', {
@@ -98,11 +99,8 @@ function feed_data(data,loaded_posts) {
                     console.log(labelled_posts)
                     for (const [key, value] of Object.entries(labelled_posts)) {
                       hidePost(loaded_posts[key]);
-
-                     
-                      //console.log(loaded_posts[key]);
                     }
-                    //hidePost(labelled_posts,'')
+                    
                     })
                     .catch(error => {
                     console.error('Error:', error);
@@ -112,20 +110,7 @@ function feed_data(data,loaded_posts) {
     })
 }
 
-// hide posts labelled as triggering
-function hide_posts(result) {
 
-    // base hiding off of user preferences
-    /*
-    chrome.storage.sync.get(["key"]).then((result) => {
-        console.log("Value currently is " + result.key);
-      });
-    */
-    for (const key in result) {
-
-        labelled_posts[`${key}`] = `${result[key]}`
-    }
-}
 
 // clean posts
 function removeHtmlTags(text) {
@@ -135,36 +120,32 @@ function removeHtmlTags(text) {
     return cleanedText;
 }
 
-
   function hidePost(post) {
-  
-    
     // Add like button to post
     option_bar = post.querySelector('._1ixsU4oQRnNfZ91jhBU74y').querySelector('._3-miAEojrCvx_4FQ8x3P-s').querySelector('._21pmAV9gWG6F_UKVe7YIE0')
     option_bar.appendChild(createButton('like'))
-  
-    // Get  position and size of the div element
-    parent_div = post.parentNode.parentNode;;
-    var { x, y, width, height } = parent_div.getBoundingClientRect(); //position relative to viewport
-    console.log('POSITION' + x, y , width, height)
-    y = y + document.documentElement.scrollTop //position relative to document 
+
+    // Get post's div element
+    const parent_div = post.parentNode;
     
     // Create and style cover
     var cover = document.createElement("div");
     cover.style.position = "absolute";
-    cover.style.left = x + "px";
-    cover.style.top = y + "px";
-    cover.style.width = width+"px";
-    cover.style.height = height + "px";
+    cover.style.left = 0 + "px";
+    cover.style.top = 0 + "px";
+    cover.style.width = parent_div.getBoundingClientRect().width+"px";
+    cover.style.height = parent_div.getBoundingClientRect().height + "px";
     cover.style.background = 'white';
     cover.style.borderRadius = '5px'
     cover.style.zIndex = "3";
     cover.style.display = 'flex';
     cover.style.justifyContent ='center';
     cover.appendChild(unhideButton(cover));
-    
-    // Add cover to page
-    document.body.appendChild(cover);
+   
+    // Append cover to post 
+    parent_div.appendChild(cover);
+
+   
  
   }
   // Adds unhide button to div

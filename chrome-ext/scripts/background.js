@@ -6,28 +6,32 @@ document.addEventListener("DOMContentLoaded", function() {
   const selectedLabelsElem = document.getElementById("selectedLabels");
   const selectedThresholdElem = document.getElementById("selectedThreshold");
 
-
-    //Get frontend to display saved user preferences
+  //Get frontend to display saved user preferences
   chrome.storage.sync.get('triggers', (result) => {
   const triggers = result.triggers;
 
   if (triggers) {
-    document.getElementById('selectedLabels').textContent = "Selected Labels: " + triggers.join(", ");
-  } else {
+    document.getElementById('selectedLabels').textContent = "";
+    for (const trigger of triggers) {
+        document.getElementById(trigger.toString()).checked = true;
+      }
+    }
+  else {
     document.getElementById('selectedLabels').textContent = "";
   }
 });
-
 
   chrome.storage.sync.get('threshold', (result) => {
   const threshold = result.threshold;
 
   if (threshold) {
-    document.getElementById('selectedThreshold').textContent = "Selected Threshold: " + threshold;
+    document.getElementById('selectedThreshold').textContent = "";
+    document.getElementById('thresholdLevel').value = threshold
   } else {
     document.getElementById('selectedThreshold').textContent = "";
   }
-});
+    });
+
 
   form.addEventListener("submit", function(event) {
     event.preventDefault();
@@ -40,8 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
     chrome.storage.sync.set({ triggers: selectedLabels }).then(() => {});
     chrome.storage.sync.set({ threshold: userThreshold }).then(() => {});
 
-    selectedLabelsElem.textContent = "Selected Labels: " + selectedLabels.join(", ");
-    selectedThresholdElem.textContent = "Selected Threshold: " + userThreshold;
+    selectedLabelsElem.textContent = "Saved!";
 
     //Reload tab after clicking Save Preferences
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {

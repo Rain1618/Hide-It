@@ -5,7 +5,7 @@
     <title> Extension Preferences</title>
     <style>
       body {
-        background-color: #F0F8FF;
+        background-color: #E0E9F5;
       }
 
       h1 {
@@ -36,6 +36,7 @@
       input[type="range"] {
         width: 100%;
         margin-top: 10px;
+        background-color: #FF5B43;
       }
 
       .slider-labels {
@@ -48,7 +49,7 @@
       }
 
       .slider-labels span:first-child {
-        margin-right: 20px;
+        margin-right: 20px; /
       }
 
       .slider-labels span:last-child {
@@ -60,7 +61,10 @@
         border-radius: 5px;
         border-width: 1px;
         font-family: "Quicksand", Verdana, Arial, sans-serif;
-        background-color: #D1E6F7;
+        background-color: #261447;
+        color: #EBF5EE;
+        float: right;
+
       }
 
       #selectedLabels,
@@ -72,45 +76,45 @@
     </style>
   </head>
   <body>
-    <h1 style="background-color:AliceBlue ">Hide-it</h1>
+    <h1>Hide-it</h1>
 
     <form id="preferencesForm">
-      <p class="select-text">Select your preferences:</p>
+      <p class="select-text">I want to hide...</p>
       <label>
-        <input type="checkbox" name="preferences" value="Abuse" />
+        <input type="checkbox" name="preferences" value="Abuse" id="Abuse"/>
         Abuse
       </label>
 
       <label>
-        <input type="checkbox" name="preferences" value="Addiction" />
+        <input type="checkbox" name="preferences" value="Addiction" id="Addiction" />
         Addiction
       </label>
 
       <label>
-        <input type="checkbox" name="preferences" value="Eating disorder" />
+        <input type="checkbox" name="preferences" value="Eating disorder" id="Eating disorder"/>
         Eating disorder
       </label>
 
       <label>
-        <input type="checkbox" name="preferences" value="Sexual violence" />
+        <input type="checkbox" name="preferences" value="Sexual violence" id="Sexual violence"/>
         Sexual violence
       </label>
 
       <label>
-        <input type="checkbox" name="preferences" value="Suicide" />
+        <input type="checkbox" name="preferences" value="Suicide" id="Suicide">
         Suicide
       </label>
 
       <label>
-        <span>Select your threshold:</span>
+        <span>Filter strength:</span>
         <input type="range" min="0" max="100" value="50" id="thresholdLevel">
         <div class="slider-labels">
-          <span>Low</span>
-          <span>High</span>
+          <span>Off</span>
+          <span>Strictest</span>
         </div
       </label>
 
-      <button type="submit">Save Preferences</button>
+      <button type="submit">Save</button>
     </form>
 
     <div id="selectedLabels"></div>
