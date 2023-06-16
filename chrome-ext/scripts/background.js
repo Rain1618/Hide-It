@@ -7,16 +7,27 @@ document.addEventListener("DOMContentLoaded", function() {
   const selectedThresholdElem = document.getElementById("selectedThreshold");
 
 
-  chrome.storage.sync.get("preferences", function(result) {
-    if (result.preferences) {
-      // Preferences exist, display them
-      selectedLabelsElem.textContent = "Selected Labels: " + result.preferences.triggers;
-      selectedThresholdElem.textContent = "Selected Threshold: " + result.preferences.threshold;
-    } else {
-      // Preferences don't exist, show the form
-      form.style.display = "block";
-    }
-  });
+    //Get frontend to display saved user preferences
+  chrome.storage.sync.get('triggers', (result) => {
+  const triggers = result.triggers;
+
+  if (triggers) {
+    document.getElementById('selectedLabels').textContent = "Selected Labels: " + triggers.join(", ");
+  } else {
+    document.getElementById('selectedLabels').textContent = "";
+  }
+});
+
+
+  chrome.storage.sync.get('threshold', (result) => {
+  const threshold = result.threshold;
+
+  if (threshold) {
+    document.getElementById('selectedThreshold').textContent = "Selected Threshold: " + threshold;
+  } else {
+    document.getElementById('selectedThreshold').textContent = "";
+  }
+});
 
   form.addEventListener("submit", function(event) {
     event.preventDefault();
